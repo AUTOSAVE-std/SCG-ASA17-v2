@@ -21,6 +21,7 @@ var begin, currentTime, duration, time;
 // boolean 
 var issouldplay1,issouldplay2;
 var iseverythingPLAY;
+var isnextpage;
 function setup() {
   createCanvas(1080, 1920);
   mic = new p5.AudioIn()
@@ -36,10 +37,11 @@ function setup() {
   Slound=          loadSound("assets/sound/lounder1.wav");
   Slounder=        loadSound("assets/sound/lounder2.wav");
 
-  begin = millis(); 
+  begin = millis();
   issouldplay1 =        false;
   issouldplay2 =        false;
   iseverythingPLAY =    false;
+  isnextpage =          false;
   maxfromMIC =          0.7;
   duration =            20;
   time =                666;
@@ -77,64 +79,69 @@ function setup() {
 }
 
 function draw(){
-
-  background(bg);
-  micLevel = mic.getLevel();
-
-  push();
-
-  translate(width/2,height/2-200);
   
-  // IMAGE THE LAYOUT
-  image(level,-234,-242);
+if(!iseverythingPLAY){
 
-  // CIRCLE ARC
-  rotate(PI/1.25);
-  noStroke();
-  fill(fillTimeLapsed);
-  arc(0,0, d,d, 0,angle);
+    background(bg);
+    micLevel = mic.getLevel();
 
+    push();
 
-  //  SHADOW
-  image(knob_shadow,-207,-207);
+    translate(width/2,height/2-200);
+    
+    // IMAGE THE LAYOUT
+    image(level,-234,-242);
 
-  //  ROTATE KNOB
-  rotate(PI/-1.25);
-  rotate(map(currentTime,0,maxcamdb,0,4.5));
-  image(knob,-206,-205);
-  pop();
-
-
-  // TELLING DB AT THE CENTER
-  textFont(fonts);
-  textSize(100);
-  fill(fillTimeLapsed);
-  // 100+
-  if(_db >= 99) text(_db, width/2-75, height/2-170);
-  // < 99
-  else text(_db, width/2-50,height/2-170);
-  textSize(32);
-  text("db", width/2-20,height/2-120);
+    // CIRCLE ARC
+    rotate(PI/1.25);
+    noStroke();
+    fill(fillTimeLapsed);
+    arc(0,0, d,d, 0,angle);
 
 
-  // //////////////////////////////////////////////////////
-  // /////////////////////////////////////////////////////
-  //  VALUE SETTING FOR NEXT LOOP
-  lastAngle = angle;
+    //  SHADOW
+    image(knob_shadow,-207,-207);
 
-  h = map(micLevel, 0, maxfromMIC, 0, maxcamdb);
-  _db = Math.trunc(map( currentTime , 0, maxcamdb, 50, 110 ));
-  if (_db > _db_max) _db_max = _db;
-
-  currentTime = smoothval(h);
+    //  ROTATE KNOB
+    rotate(PI/-1.25);
+    rotate(map(currentTime,0,maxcamdb,0,4.5));
+    image(knob,-206,-205);
+    pop();
 
 
-  angle = (currentTime/fullCircleTime) * TWO_PI;
-  angle %= TWO_PI;
+    // TELLING DB AT THE CENTER
+    textFont(fonts);
+    textSize(100);
+    fill(fillTimeLapsed);
+    // 100+
+    if(_db >= 99) text(_db, width/2-75, height/2-170);
+    // < 99
+    else text(_db, width/2-50,height/2-170);
+    textSize(32);
+    text("db", width/2-20,height/2-120);
 
-  // DISPLAY TIME LEFT
-  display_timeleft();
+
+    // //////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////
+    //  VALUE SETTING FOR NEXT LOOP
+    lastAngle = angle;
+
+    h = map(micLevel, 0, maxfromMIC, 0, maxcamdb);
+    _db = Math.trunc(map( currentTime , 0, maxcamdb, 50, 110 ));
+    if (_db > _db_max) _db_max = _db;
+
+    currentTime = smoothval(h);
+
+
+    angle = (currentTime/fullCircleTime) * TWO_PI;
+    angle %= TWO_PI;
+
+    // DISPLAY TIME LEFT
+    display_timeleft();
+}
+
   iseverythingDONE();
+
 
 
 }
@@ -143,6 +150,12 @@ function iseverythingDONE(){
   if (time<=0 && !iseverythingPLAY) {
     createCanvas(0, 0);
     playlogic();
+    iseverythingPLAY = !iseverythingPLAY;
+  } else if(_db_max >= 100 && !iseverythingPLAY){
+    createCanvas(0, 0);
+    fingers = createVideo('assets/video/110.mp4');
+    fingers.play();
+    if(!isnextpage) {senttofuckingtime("3camera.html",15000);}
     iseverythingPLAY = !iseverythingPLAY;
   }
 }
@@ -158,22 +171,41 @@ function playlogic(){
   if(_db_max >= LOUNDESTDB_110) {
         fingers = createVideo('assets/video/110.mp4');
         fingers.play();
+        if(!isnextpage) {senttofuckingtime("3camera.html",15000);}
+        // GO TO TAKING PICTURE
   } else if(_db_max >= LOUNDEST_lanmover_DB_100 ) {
         fingers = createVideo('assets/video/100.mp4');
         fingers.play();
+        if(!isnextpage) {senttofuckingtime("4sensor.html",19000);}
+        // GO TO LISTEN TO SENSOR HERE
   } else if(_db_max >= LOUNDEST_motobike_DB_90 ) {
         fingers = createVideo('assets/video/90.mp4');
         fingers.play();
+        if(!isnextpage) {senttofuckingtime("4sensor.html",19000);}
+        // GO TO LISTEN TO SENSOR HERE
   } else if(_db_max >= LOUNDEST_blender_DB_80 ) {
         fingers = createVideo('assets/video/80.mp4');
         fingers.play();
+        if(!isnextpage) {senttofuckingtime("4sensor.html",19000);}
+        // GO TO LISTEN TO SENSOR HERE
   } else if(_db_max >= LOUNDEST_suck_DB_70 ) {
         fingers = createVideo('assets/video/70.mp4');
         fingers.play();
+        if(!isnextpage) {senttofuckingtime("4sensor.html",19000);}
+        // GO TO LISTEN TO SENSOR HERE
   } else {
         fingers = createVideo('assets/video/60.mp4');
         fingers.play();
+        if(!isnextpage) {senttofuckingtime("4sensor.html",19000);}
+        // GO TO LISTEN TO SENSOR HERE
   }
+}
+
+function senttofuckingtime(string,number){
+        isnextpage = !isnextpage;
+        window.setTimeout(function(){
+            window.location.href = string;
+        }, number);
 }
 
 function display_timeleft(){
