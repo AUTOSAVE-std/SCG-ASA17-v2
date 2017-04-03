@@ -1,4 +1,16 @@
 
+
+
+// LIGHT ELEMENT
+var serial;             // variable to hold an instance of the serialport library
+var portName = 'COM5';  // fill in your serial port name here
+var indicatecolor = 0;
+var themecolor;
+var white;
+var themecolor2;
+var white75;
+var blackcolor;
+
 // VIDEO
 var fingers;
 
@@ -26,6 +38,12 @@ function setup() {
   createCanvas(1080, 1920);
   mic = new p5.AudioIn()
   mic.start();
+
+  serial = new p5.SerialPort();    // make a new instance of the serialport library
+  // serial.on('data', serialEvent);  // callback for when new data arrives
+  // serial.on('error', serialError); // callback for errors
+  serial.open(portName,9600);           // open a serial port
+  
   // bg =             loadImage("assets/img/BG-01.png");
   bg =             loadImage("assets/img/BG-01.png");
   level =          loadImage("assets/img/level.png");
@@ -59,9 +77,13 @@ function setup() {
   fontcolorDB =         color(255, 204, 0);
   fontcolorSecound =    color(255, 204, 0);
   fillTimeLapsed =      color(216, 127, 96); 
-  fillTimecoundown =    color(43, 105, 107); 
+  fillTimecoundown =    color(43, 105, 107);
 
-
+  blackcolor =          color(0,0,0);
+  themecolor =          color(184,52,0);
+  white =               color(255, 255, 241);
+  themecolor2 =         lerpColor(color(10,10,10),themecolor,0.5);
+  white75 =             color(255/2, 255/2, 241/2);
 
   LOUNDESTDB_110            = 110;
   LOUNDEST_AIRCON_DB_60     = 60;
@@ -135,6 +157,17 @@ if(!iseverythingPLAY){
 
     angle = (currentTime/fullCircleTime) * TWO_PI;
     angle %= TWO_PI;
+
+    // FUCKING LIGHT
+    indicatecolor = map( _db , 50, 110, 0, 1);
+    var temcolor =  lerpColor(blackcolor, themecolor, indicatecolor);
+    var sentstr =   Math.trunc(red(temcolor))+
+                    ","+Math.trunc(green(temcolor))+
+                    ","+Math.trunc(blue(temcolor))+'\n';
+
+    serial.write(sentstr);
+    print(sentstr);
+
 
     // DISPLAY TIME LEFT
     display_timeleft();
