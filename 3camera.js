@@ -7,12 +7,22 @@ var proPrint;
 var issave;
 var xpos,ypos;
 var fingers;
+var d3,d2,d1;
+var dlound
+function preload() {
+
+
+}
+
 function setup() {
 	  createCanvas(1080, 1920);
+
 	  capture = createCapture(VIDEO);
 	  capture.size(900, 1350);
 
 	  fingers = 			createVideo('assets/video/printing.mp4');
+	  dlound = loadSound('assets/sound/countphoto.wav');
+
 	  proPrint = 			createGraphics(1080, 1920);
 	  xpos =				(-720/2)-200;
 	  ypos =				(-550/2)-75;
@@ -20,11 +30,14 @@ function setup() {
 	  fonts =          		loadFont("assets/font/SCG-Bol.otf");
 	  begin = 				millis();
 	  issave =				false;
+	  d3 =					false;
+	  d2 =					false;
+	  d1 =					false;
 	  fillTimecoundown =    color(43, 105, 107);
 	  duration = 			7;
-	  time = 				3;
+	  time = 				100;
 	  textFont(fonts);
-
+	  dlound.pause(); 
 }
 
 function draw() {
@@ -47,6 +60,14 @@ function draw() {
 	  	textSize(32);
 	  	text("sec", width/2+80, height/2+550);
 	  }
+
+	  	if(!d3 && time ==3){ 		
+	  		dlound.play(); 
+	  		d3=!d3;
+	  		print("playyyy");
+	  	}
+	  	// else if(time==2 && !d2){ 	Dlound.play(); d2=!d2;}
+	  	// else if(time==1 && !d1){ 	Dlound.play(); d1=!d1;}
 		
 	}
 

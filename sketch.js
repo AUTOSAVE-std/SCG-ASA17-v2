@@ -166,7 +166,7 @@ if(!iseverythingPLAY){
                     ","+Math.trunc(blue(temcolor))+'\n';
 
     serial.write(sentstr);
-    print(sentstr);
+
 
 
     // DISPLAY TIME LEFT
@@ -184,11 +184,11 @@ function iseverythingDONE(){
     createCanvas(0, 0);
     playlogic();
     iseverythingPLAY = !iseverythingPLAY;
-  } else if(_db_max >= 100 && !iseverythingPLAY){
+  } else if(_db_max >= 90 && !iseverythingPLAY){
     createCanvas(0, 0);
     fingers = createVideo('assets/video/110.mp4');
     fingers.play();
-    if(!isnextpage) {senttofuckingtime("3camera.html",15000);}
+    if(!isnextpage) {senttofuckingtime("3camera.html",12000);}
     iseverythingPLAY = !iseverythingPLAY;
   }
 }
@@ -204,32 +204,32 @@ function playlogic(){
   if(_db_max >= LOUNDESTDB_110) {
         fingers = createVideo('assets/video/110.mp4');
         fingers.play();
-        if(!isnextpage) {senttofuckingtime("3camera.html",15000);}
+        if(!isnextpage) {senttofuckingtime("3camera.html",12000);}
         // GO TO TAKING PICTURE
   } else if(_db_max >= LOUNDEST_lanmover_DB_100 ) {
         fingers = createVideo('assets/video/100.mp4');
         fingers.play();
-        if(!isnextpage) {senttofuckingtime("4sensor.html",19000);}
+        if(!isnextpage) {senttofuckingtime("4sensor.html",23000);}
         // GO TO LISTEN TO SENSOR HERE
   } else if(_db_max >= LOUNDEST_motobike_DB_90 ) {
         fingers = createVideo('assets/video/90.mp4');
         fingers.play();
-        if(!isnextpage) {senttofuckingtime("4sensor.html",19000);}
+        if(!isnextpage) {senttofuckingtime("4sensor.html",22000);}
         // GO TO LISTEN TO SENSOR HERE
   } else if(_db_max >= LOUNDEST_blender_DB_80 ) {
         fingers = createVideo('assets/video/80.mp4');
         fingers.play();
-        if(!isnextpage) {senttofuckingtime("4sensor.html",19000);}
+        if(!isnextpage) {senttofuckingtime("4sensor.html",23000);}
         // GO TO LISTEN TO SENSOR HERE
   } else if(_db_max >= LOUNDEST_suck_DB_70 ) {
         fingers = createVideo('assets/video/70.mp4');
         fingers.play();
-        if(!isnextpage) {senttofuckingtime("4sensor.html",19000);}
+        if(!isnextpage) {senttofuckingtime("4sensor.html",22000);}
         // GO TO LISTEN TO SENSOR HERE
   } else {
         fingers = createVideo('assets/video/60.mp4');
         fingers.play();
-        if(!isnextpage) {senttofuckingtime("4sensor.html",19000);}
+        if(!isnextpage) {senttofuckingtime("4sensor.html",22000);}
         // GO TO LISTEN TO SENSOR HERE
   }
 }
