@@ -5,12 +5,13 @@
 var serial;             // variable to hold an instance of the serialport library
 var portName = 'COM5';  // fill in your serial port name here
 var indicatecolor = 0;
+var indicatecolor2 = 0;
 var themecolor;
 var white;
 var themecolor2;
 var white75;
 var blackcolor;
-
+var temcolor;
 // VIDEO
 var fingers;
 
@@ -33,6 +34,7 @@ var begin, currentTime, duration, time;
 // boolean 
 var issouldplay1,issouldplay2;
 var iseverythingPLAY;
+var triggerlightEND;
 var isnextpage;
 function setup() {
   createCanvas(1080, 1920);
@@ -60,6 +62,7 @@ function setup() {
   issouldplay2 =        false;
   iseverythingPLAY =    false;
   isnextpage =          false;
+  triggerlightEND =     false;
   maxfromMIC =          0.7;
   duration =            20;
   time =                666;
@@ -160,7 +163,7 @@ if(!iseverythingPLAY){
 
     // FUCKING LIGHT
     indicatecolor = map( _db , 50, 110, 0, 1);
-    var temcolor =  lerpColor(blackcolor, themecolor, indicatecolor);
+    temcolor =  lerpColor(blackcolor, themecolor, indicatecolor);
     var sentstr =   Math.trunc(red(temcolor))+
                     ","+Math.trunc(green(temcolor))+
                     ","+Math.trunc(blue(temcolor))+'\n';
@@ -174,23 +177,38 @@ if(!iseverythingPLAY){
 }
 
   iseverythingDONE();
+  if(triggerlightEND){ lightup();}
+
 
 
 
 }
-
+function lightup() {
+  if(indicatecolor2 <= 1 && frameCount % 5 == 0) {
+    var temcolor2 =  lerpColor(temcolor, white75, indicatecolor2);
+    var sentstr =   Math.trunc(red(temcolor2))+
+                    ","+Math.trunc(green(temcolor2))+
+                    ","+Math.trunc(blue(temcolor2))+'\n';
+    indicatecolor2 += 0.01;
+    serial.write(sentstr);
+    print(sentstr);
+    }
+}
 function iseverythingDONE(){
   if (time<=0 && !iseverythingPLAY) {
     createCanvas(0, 0);
     playlogic();
     iseverythingPLAY = !iseverythingPLAY;
-  } else if(_db_max >= 90 && !iseverythingPLAY){
+    triggerlightEND = true;
+  } else if(_db_max >= 100 && !iseverythingPLAY){
     createCanvas(0, 0);
     fingers = createVideo('assets/video/110.mp4');
     fingers.play();
     if(!isnextpage) {senttofuckingtime("3camera.html",12000);}
     iseverythingPLAY = !iseverythingPLAY;
+    triggerlightEND = true;
   }
+
 }
 
 function playlogic(){
