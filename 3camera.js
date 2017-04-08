@@ -10,6 +10,8 @@ var xpos,ypos;
 var fingers;
 var d3,d2,d1;
 var dlound
+var clickshutter;
+var shuttersound;
 function preload() {
 
 
@@ -22,7 +24,8 @@ function setup() {
 	  capture.size(900, 1350);
 
 	  fingers = 			createVideo('assets/video/printing.mp4');
-	  dlound = loadSound('assets/sound/countphoto.wav');
+	  dlound = 				loadSound('assets/sound/countphoto.wav');
+	  shuttersound =		loadSound('assets/sound/shutter.wav');
 
 	  proPrint = 			createGraphics(1200, 1731);
 	  xpos =				(-720/2)-200;
@@ -35,6 +38,7 @@ function setup() {
 	  d3 =					false;
 	  d2 =					false;
 	  d1 =					false;
+	  clickshutter = 		false;
 	  fillTimecoundown =    color(43, 105, 107);
 	  duration = 			7;
 	  time = 				100;
@@ -58,7 +62,7 @@ function draw() {
 	  if(time<=3) {
 	  	fill(fillTimecoundown);
 	  	textSize(200);
-	  	text(time, width/2-50, height/2+550);
+	  	text(Math.trunc(time), width/2-50, height/2+550);
 	  	textSize(32);
 	  	text("sec", width/2+80, height/2+550);
 	  }
@@ -74,8 +78,14 @@ function draw() {
 	}
 
 	  if (time >= 0) {
-	  	time = Math.trunc(duration - (millis() - begin)/1000);
-	    if (time == 0) background(255);
+	  	// time = Math.trunc(duration - (millis() - begin)/1000);
+	  	time = duration - (millis() - begin)/1000;
+
+	  	// Time between
+	    if (time <= 0.5 && time >= 0) {
+	    	if(!clickshutter) { shuttersound.play();  clickshutter = !clickshutter;}
+	    	background(255);
+	    }
 	  }
 	  else {
 	  	background(255);
